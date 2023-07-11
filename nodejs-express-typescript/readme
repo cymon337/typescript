@@ -1,0 +1,79 @@
+https://velog.io/@qhgus/Node-Express-TypeScript-%ED%99%98%EA%B2%BD-%EC%84%B8%ED%8C%85
+
+# yarn 설치
+
+$ npm install --global yarn
+$ yarn --version
+
+# 프로젝트 생성
+
+루트폴더에서 시작
+
+$ yarn init
+    <!-- entry point app.ts 로 설정 package.json 생성됨 -->
+
+    <!-- 필수구성요소 express, typescript, ts-node, nodemon을 설치 -->
+
+$ yarn add -D express typescript ts-node nodemon @types/node @types/express @types/express-serve-static-core
+
+    <!-- tsconfig.json 파일 생성 후 작성-->
+
+$ npx tsc --init
+
+{
+  "compilerOptions": {
+    "target": "es6", // 어떤 버전으로 컴파일할지 작성 
+    "module": "commonjs", //어떤 모듈 방식으로 컴파일할지 설정
+    "outDir": "./dist",	//컴파일 후 js 파일들이 생성되는 곳
+    "rootDir": ".",	//루트 폴더
+    "strict": true,	//strict 옵션 활성화
+    "moduleResolution": "node",	//모듈 해석 방법 설정: 'node' (Node.js)
+    "esModuleInterop": true,
+     "jsx": "react"
+  }
+}
+
+    <!-- express 코드 작성 -->
+
+root 폴더 아래 src/app.ts를 작성해줍니다.
+
+import express, { Request, Response, NextFunction } from 'express';
+
+const app = express();
+
+
+app.get('/welcome', (req: Request, res: Response, next: NextFunction) => {
+    res.send('welcome!');
+});
+
+app.listen('1234', () => {
+    console.log(`
+  ################################################
+  🛡️  Server listening on port: 1234🛡️
+  ################################################
+`);
+});
+
+
+<!-- packages.json 파일 수정 -->
+
+app.get의 url로 접속을 하면 해당 블록의 코드를 실행합니다.
+app.listen의 포트로 접속하면 해당 블록의 코드를 실행합니다.
+
+% 
+package.json 파일을 수정합니다.
+scripts 안에 있는 요소는 터미널에 $ yarn dev 이런식으로 써주면 실행됩니다. 아까 설치한 nodemon과 ts-node를 이용하여 서버를 시작하는 스크립트를 작성합니다.
+
+...
+"scripts": {
+    "start": "node dist/app.js", 
+    "build": "tsc -p .", 
+    "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/app.ts"
+  }
+ ...
+"start": "node dist/app.js" : 컴파일된 js파일로 시작
+"build": "tsc -p ." : typescript를 javascript로 빌드
+
+<!-- 서버시작 -->
+$ yarn dev
+http://localhost:1234/welcome 접속 확인
