@@ -2,6 +2,8 @@ https://www.youtube.com/watch?v=jpYNpwAF_Rc
 The Ultimate Guide to Building REST APIs w/ Node.js, TypeScript, Express, MySQL, TypeORM & Docker
 영상보고 따라하기
 
+# basic packages installation, basic REST APIs
+
 $ yarn init -y
 
 $ yarn add express @types/express dotenv typeorm reflect-metadata mysql2 cors body-parser express-async-errors
