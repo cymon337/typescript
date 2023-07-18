@@ -25,3 +25,5 @@ package.json 에서 scripts 설정
 $ yarn dev  로 실행
 
  postman 사용하여 http://localhost:30001/hello 로 GET request 확인
+
+ 
