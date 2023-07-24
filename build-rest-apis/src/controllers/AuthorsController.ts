@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from '../database/data-source';
 import { Author } from '../entities/Author';
+import { ResponseUtl } from '../../utils/Response';
 
 export class AuthorsController{
 
@@ -24,11 +25,11 @@ export class AuthorsController{
             id: Number(id),
         });
 
-        return res.status(200).json({
-            success: true,
-            message: "Fetched author successfully",
-            data: author,
-        })
+        return ResponseUtl.sendResponse<Author>(
+            res, 
+            "Fetch author successfully", 
+            author
+        );
 
     }
 

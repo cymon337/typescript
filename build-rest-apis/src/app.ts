@@ -1,4 +1,4 @@
-import express, { Express } from "express";
+import express, { Express, Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import authorsRoute from "./routes/authors";
@@ -12,10 +12,11 @@ app.use(bodyParser.json());
 
 app.use("/authors", authorsRoute)
 
-app.get('/hello', (req, res, next) => {
-    return res.status(200).json({
-        message: "Hello world",
-    })
+app.use("*", (req: Request, res: Response) => {
+    return res.status(404).json({
+        success: false,
+        message: "Invalid route",
+    });
 });
 
 export default app;
