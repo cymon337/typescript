@@ -18,7 +18,7 @@ export const AppDataSource = new DataSource({
 
     database: process.env.DB_DATABASE || "bookie",
 
-    logging: true,
+    logging: ["query"],
 
     synchronize: false,
 
