@@ -26,10 +26,19 @@ export class AuthorsController{
 
         return ResponseUtl.sendResponse<Author>(
             res, 
-            "Fetch author successfully", 
+            "Fetched author successfully", 
             author
         );
 
+    }
+
+    async create(req: Request, res: Response): Promise<Response> {
+        const authorData = req.body;
+        const repo = AppDataSource.getRepository(Author);
+        const author = repo.create(authorData);
+        await repo.save(author);
+
+        return ResponseUtl.sendResponse(res, "Successfully created new author", author, null, 200)
     }
 
 }
