@@ -23,4 +23,9 @@ router.put(
     ErrorHandler.handleErrors(authorsController.update),
 );
 
+router.delete(
+    "/:id",
+    ErrorHandler.handleErrors(authorsController.delete),
+);
+
 export default router;

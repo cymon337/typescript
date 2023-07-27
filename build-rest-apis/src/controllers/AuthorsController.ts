@@ -7,7 +7,7 @@ import { Paginator } from '../database/Paginator';
 import { validate } from 'class-validator';
 
 export class AuthorsController{
-
+    
     async getAuthors(req: Request, res: Response) {
 
         const builder = await AppDataSource.getRepository(Author).createQueryBuilder().orderBy("id","DESC");
@@ -75,8 +75,19 @@ export class AuthorsController{
         repo.merge(author, authorData);
         await repo.save(author);
         
-        return ResponseUtl.sendResponse(res, "Successfully updated the author", author, null, 200)
+        return ResponseUtl.sendResponse(res, "Successfully updated the author", author, null, 200);
 
     }
 
+    async delete(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const repo = AppDataSource.getRepository(Author)
+        const author = await repo.findOneByOrFail({
+            id: Number(id),
+        });
+        await repo.remove(author);
+        return ResponseUtl.sendResponse(res, "Successfully deleted the author", null);
+    }
+
+    
 }
