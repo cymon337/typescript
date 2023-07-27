@@ -4,7 +4,7 @@ import cors from "cors";
 import authorsRoute from "./routes/authors";
 import { EntityListenerMetadata } from "typeorm/metadata/EntityListenerMetadata";
 import { EntityNotFoundError } from "typeorm";
-import { ResponseUtl } from "../utils/Response";
+import { ResponseUtl } from "./utils/Response";
 
 
 const app: Express = express();

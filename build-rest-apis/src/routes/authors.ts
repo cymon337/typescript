@@ -1,5 +1,5 @@
 import { FileUploader } from '../middlewares/FileUploader';
-import { ErrorHandler } from './../../utils/ErrorHandler';
+import { ErrorHandler } from '../utils/ErrorHandler';
 import { AuthorsController } from './../controllers/AuthorsController';
 import express from "express";
 
@@ -15,7 +15,12 @@ router.get("/:id", ErrorHandler.handleErrors(authorsController.getAuthor));
 router.post(
     "/", 
     FileUploader.upload("image", "authors", 2 * 1024 * 1024), 
-    ErrorHandler.handleErrors(authorsController.create)
+    ErrorHandler.handleErrors(authorsController.create),
+);
+
+router.put(
+    "/:id", 
+    ErrorHandler.handleErrors(authorsController.update),
 );
 
 export default router;
