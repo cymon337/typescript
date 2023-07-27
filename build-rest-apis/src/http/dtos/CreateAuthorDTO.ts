@@ -12,7 +12,7 @@ export class CreateAuthorDTO {
 
     @IsNotEmpty()
     @IsEmail() // email 형태로 검사
-    @IsUnique(Author, "email")
+    @IsUnique(Author, "email") // custom validation
     email: string;
 
     @IsOptional() // Checks if value is missing and if so, ignores all validators.
