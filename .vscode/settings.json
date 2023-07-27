@@ -1,0 +1,6 @@
+{
+// /* vscode setting.json에 추가 설정 */
+"typescript.suggest.paths": false,
+"javascript.suggest.paths": false,
+"path-intellisense.ignoreTsConfigBaseUrl": true
+}

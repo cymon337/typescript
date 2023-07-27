@@ -1,0 +1,29 @@
+https://www.youtube.com/watch?v=jpYNpwAF_Rc
+The Ultimate Guide to Building REST APIs w/ Node.js, TypeScript, Express, MySQL, TypeORM & Docker
+영상보고 따라하기
+
+# basic packages installation, basic REST APIs
+
+$ yarn init -y
+
+$ yarn add express @types/express dotenv typeorm reflect-metadata mysql2 cors body-parser express-async-errors
+
+$ yarn add -D typescript ts-node tsconfig-paths @types/node nodemon @types/cors @types/body-parser
+
+$ npx tsc --init
+
+tsconfig.json 설정 
+
+src 폴더, app.ts, index.ts 생성 .env 생성
+
+package.json 에서 scripts 설정
+"scripts": {
+    "build": "tsc",
+    "dev": "nodemon --watch src --ext ts,json --exec node -r ts-node/register src/index.ts",
+}
+
+$ yarn dev  로 실행
+
+ postman 사용하여 http://localhost:30001/hello 로 GET request 확인
+
+https://youtu.be/jpYNpwAF_Rc?t=9540 까지
