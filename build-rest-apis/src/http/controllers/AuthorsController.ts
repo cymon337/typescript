@@ -62,6 +62,7 @@ export class AuthorsController{
         // validation
         const dto = new UpdateAuthorDTO();
         Object.assign(dto, authorData);
+        dto.id = parseInt(id);
         const errors = await validate(dto);
         if (errors.length > 0) {
             return ResponseUtil.sendError(res, "Invalid data", 422, errors)
