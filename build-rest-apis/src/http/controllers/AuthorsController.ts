@@ -1,9 +1,9 @@
-import { CreateAuthorDTO, UpdateAuthorDTO } from './../dtos/CreateAuthorDTO';
+import { CreateAuthorDTO, UpdateAuthorDTO } from '../dtos/CreateAuthorDTO';
 import { Request, Response } from 'express';
-import { AppDataSource } from '../database/data-source';
-import { Author } from '../entities/Author';
-import { ResponseUtl } from '../utils/Response';
-import { Paginator } from '../database/Paginator';
+import { AppDataSource } from '../../database/data-source';
+import { Author } from '../../database/entities/Author';
+import { ResponseUtil } from '../../utils/Response';
+import { Paginator } from '../../database/Paginator';
 import { validate } from 'class-validator';
 
 export class AuthorsController{
@@ -14,7 +14,7 @@ export class AuthorsController{
 
         const {records: authors, paginationInfo} = await Paginator.paginate(builder, req);
 
-        return ResponseUtl.sendResponse(res, "Fetched authors successfully", authors, paginationInfo);
+        return ResponseUtil.sendResponse(res, "Fetched authors successfully", authors, paginationInfo);
 
     }
 
@@ -26,7 +26,7 @@ export class AuthorsController{
             id: Number(id),
         });
 
-        return ResponseUtl.sendResponse<Author>(
+        return ResponseUtil.sendResponse<Author>(
             res, 
             "Fetched author successfully", 
             author
@@ -44,14 +44,14 @@ export class AuthorsController{
 
         const errors = await validate(dto);
         if (errors.length > 0) {
-            return ResponseUtl.sendError(res, "Invalid data", 422, errors)
+            return ResponseUtil.sendError(res, "Invalid data", 422, errors)
         }
 
         const repo = AppDataSource.getRepository(Author);
         const author = repo.create(authorData);
         await repo.save(author);
 
-        return ResponseUtl.sendResponse(res, "Successfully created new author", author, null, 200)
+        return ResponseUtil.sendResponse(res, "Successfully created new author", author, null, 200)
     }
 
     async update(req: Request, res: Response): Promise<Response> {
@@ -64,7 +64,7 @@ export class AuthorsController{
         Object.assign(dto, authorData);
         const errors = await validate(dto);
         if (errors.length > 0) {
-            return ResponseUtl.sendError(res, "Invalid data", 422, errors)
+            return ResponseUtil.sendError(res, "Invalid data", 422, errors)
         }
 
         const repo = AppDataSource.getRepository(Author)
@@ -75,7 +75,7 @@ export class AuthorsController{
         repo.merge(author, authorData);
         await repo.save(author);
         
-        return ResponseUtl.sendResponse(res, "Successfully updated the author", author, null, 200);
+        return ResponseUtil.sendResponse(res, "Successfully updated the author", author, null, 200);
 
     }
 
@@ -86,7 +86,7 @@ export class AuthorsController{
             id: Number(id),
         });
         await repo.remove(author);
-        return ResponseUtl.sendResponse(res, "Successfully deleted the author", null);
+        return ResponseUtil.sendResponse(res, "Successfully deleted the author", null);
     }
 
     

@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-export class ResponseUtl {
+export class ResponseUtil {
 
     static sendResponse<T>(
         res: Response, 
