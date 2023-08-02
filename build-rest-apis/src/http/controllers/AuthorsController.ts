@@ -1,10 +1,10 @@
-import { CreateAuthorDTO, UpdateAuthorDTO } from '../dtos/CreateAuthorDTO';
+import { CreateAuthorDTO, UpdateAuthorDTO } from '../dtos/AuthorDTO';
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../database/data-source';
 import { Author } from '../../database/entities/Author';
 import { ResponseUtil } from '../../utils/Response';
 import { Paginator } from '../../database/Paginator';
-import { validate } from 'class-validator';
+import { validate, validateOrReject } from 'class-validator';
 
 export class AuthorsController{
     
@@ -42,10 +42,7 @@ export class AuthorsController{
         const dto = new CreateAuthorDTO();
         Object.assign(dto, authorData);
 
-        const errors = await validate(dto);
-        if (errors.length > 0) {
-            return ResponseUtil.sendError(res, "Invalid data", 422, errors)
-        }
+        await validateOrReject(dto);
 
         const repo = AppDataSource.getRepository(Author);
         const author = repo.create(authorData);
@@ -63,10 +60,8 @@ export class AuthorsController{
         const dto = new UpdateAuthorDTO();
         Object.assign(dto, authorData);
         dto.id = parseInt(id);
-        const errors = await validate(dto);
-        if (errors.length > 0) {
-            return ResponseUtil.sendError(res, "Invalid data", 422, errors)
-        }
+
+        await validateOrReject(dto);
 
         const repo = AppDataSource.getRepository(Author)
         const author = await repo.findOneByOrFail({

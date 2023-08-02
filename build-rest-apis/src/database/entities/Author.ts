@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 import { DBTable } from "../../constants/DBTable";
+import { Book } from './Book';
 
 @Entity(DBTable.AUTHORS)
 export class Author {
@@ -19,5 +20,14 @@ export class Author {
 
     @Column({ nullable: true })    
     image: string;
+
+    @OneToMany((type) => Book, (book) => book.author)
+    books: Book[];
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
 
 } 
