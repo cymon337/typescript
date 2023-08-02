@@ -5,31 +5,32 @@ import { Author } from '../../database/entities/Author';
 import { ResponseUtil } from '../../utils/Response';
 import { Paginator } from '../../database/Paginator';
 import { validate, validateOrReject } from 'class-validator';
+import { Book } from '../../database/entities/Book';
 
-export class AuthorsController{
+export class BooksController{
     
-    async getAuthors(req: Request, res: Response) {
+    async get(req: Request, res: Response) {
 
-        const builder = await AppDataSource.getRepository(Author).createQueryBuilder().orderBy("id","DESC");
+        const builder = await AppDataSource.getRepository(Book).createQueryBuilder().orderBy("id","DESC");
 
-        const {records: authors, paginationInfo} = await Paginator.paginate(builder, req);
+        const {records: books, paginationInfo} = await Paginator.paginate(builder, req);
 
-        return ResponseUtil.sendResponse(res, "Fetched authors successfully", authors, paginationInfo);
+        return ResponseUtil.sendResponse(res, "Fetched books successfully", books, paginationInfo);
 
     }
 
-    async getAuthor(req: Request, res: Response) {
+    async getBook(req: Request, res: Response) {
 
         const {id} = req.params;
 
-        const author = await AppDataSource.getRepository(Author).findOneByOrFail({
+        const book = await AppDataSource.getRepository(Book).findOneByOrFail({
             id: Number(id),
         });
 
-        return ResponseUtil.sendResponse<Author>(
+        return ResponseUtil.sendResponse<Book>(
             res, 
-            "Fetched author successfully", 
-            author
+            "Fetched book successfully", 
+            book
         );
 
     }
@@ -42,7 +43,10 @@ export class AuthorsController{
         const dto = new CreateAuthorDTO();
         Object.assign(dto, authorData);
 
-        await validateOrReject(dto);
+        const errors = await validate(dto);
+        if (errors.length > 0) {
+            return ResponseUtil.sendError(res, "Invalid data", 422, errors)
+        }
 
         const repo = AppDataSource.getRepository(Author);
         const author = repo.create(authorData);
@@ -62,6 +66,10 @@ export class AuthorsController{
         dto.id = parseInt(id);
 
         await validateOrReject(dto);
+        // const errors = await validate(dto);
+        // if (errors.length > 0) {
+        //     return ResponseUtil.sendError(res, "Invalid data", 422, errors)
+        // }
 
         const repo = AppDataSource.getRepository(Author)
         const author = await repo.findOneByOrFail({
