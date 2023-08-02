@@ -1,11 +1,10 @@
-import { CreateAuthorDTO, UpdateAuthorDTO } from '../dtos/CreateAuthorDTO';
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../database/data-source';
-import { Author } from '../../database/entities/Author';
 import { ResponseUtil } from '../../utils/Response';
 import { Paginator } from '../../database/Paginator';
 import { validate, validateOrReject } from 'class-validator';
 import { Book } from '../../database/entities/Book';
+import { CreateBookDTO, UpdateBookDTO } from '../dtos/BookDTO';
 
 export class BooksController{
     
@@ -36,61 +35,59 @@ export class BooksController{
     }
 
     async create(req: Request, res: Response): Promise<Response> {
-        const authorData = req.body;
+        const bookData = req.body;
 
-        authorData.image = req.file?.filename;
+        bookData.image = req.file?.filename;
 
-        const dto = new CreateAuthorDTO();
-        Object.assign(dto, authorData);
+        const dto = new CreateBookDTO();
+        Object.assign(dto, bookData);
+        dto.authorId = parseInt(bookData.authorId);
+        dto.price = parseInt(bookData.price);
 
         const errors = await validate(dto);
         if (errors.length > 0) {
             return ResponseUtil.sendError(res, "Invalid data", 422, errors)
         }
 
-        const repo = AppDataSource.getRepository(Author);
-        const author = repo.create(authorData);
-        await repo.save(author);
+        const repo = AppDataSource.getRepository(Book);
+        const book = repo.create(bookData);
+        await repo.save(book);
 
-        return ResponseUtil.sendResponse(res, "Successfully created new author", author, null, 200)
+        return ResponseUtil.sendResponse(res, "Successfully created new book", book, null, 200)
     }
 
     async update(req: Request, res: Response): Promise<Response> {
         
         const {id} = req.params;
-        const authorData = req.body;
+        const bookData = req.body;
 
         // validation
-        const dto = new UpdateAuthorDTO();
-        Object.assign(dto, authorData);
+        const dto = new UpdateBookDTO();
+        Object.assign(dto, bookData);
         dto.id = parseInt(id);
 
         await validateOrReject(dto);
-        // const errors = await validate(dto);
-        // if (errors.length > 0) {
-        //     return ResponseUtil.sendError(res, "Invalid data", 422, errors)
-        // }
 
-        const repo = AppDataSource.getRepository(Author)
-        const author = await repo.findOneByOrFail({
+        const repo = AppDataSource.getRepository(Book)
+        const book = await repo.findOneByOrFail({
             id: Number(id),
         });
 
-        repo.merge(author, authorData);
-        await repo.save(author);
+        repo.merge(book, bookData);
+        await repo.save(book);
         
-        return ResponseUtil.sendResponse(res, "Successfully updated the author", author, null, 200);
+        return ResponseUtil.sendResponse(res, "Successfully updated the book", book, null, 200);
 
     }
 
     async delete(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const repo = AppDataSource.getRepository(Author)
-        const author = await repo.findOneByOrFail({
+        const repo = AppDataSource.getRepository(Book)
+        const book = await repo.findOneByOrFail({
             id: Number(id),
         });
-        await repo.remove(author);
-        return ResponseUtil.sendResponse(res, "Successfully deleted the author", null);
+        await repo.remove(book);
+        return ResponseUtil.sendResponse(res, "Successfully deleted the book", null);
     }
 
     

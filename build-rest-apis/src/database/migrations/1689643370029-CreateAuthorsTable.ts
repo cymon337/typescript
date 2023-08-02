@@ -1,6 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm"
 import { DBTable } from "../../constants/DBTable";
 
+// imgration 이름 옆 timestamp 로 생성순서 결정된다. 순서 유의할것
 export class CreateAuthorsTable1689643370029 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {

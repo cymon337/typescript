@@ -14,7 +14,7 @@ router.get("/:id", ErrorHandler.catchErrors(booksController.getBook));
 
 router.post(
     "/", 
-    FileUploader.upload("image", "authors", 2 * 1024 * 1024), 
+    FileUploader.upload("image", "books", 2 * 1024 * 1024), 
     ErrorHandler.catchErrors(booksController.create),
 );
 

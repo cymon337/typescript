@@ -1,6 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class SeedInitialData1674172846008 implements MigrationInterface {
+// imgration 이름 옆 timestamp 로 생성순서 결정된다. 순서 유의할것
+export class SeedInitialData1690955123573 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
       "INSERT IGNORE INTO authors (id, name, email, bio, image) VALUES \n" +

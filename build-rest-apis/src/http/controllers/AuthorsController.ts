@@ -1,4 +1,4 @@
-import { CreateAuthorDTO, UpdateAuthorDTO } from '../dtos/CreateAuthorDTO';
+import { CreateAuthorDTO, UpdateAuthorDTO } from '../dtos/AuthorDTO';
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../database/data-source';
 import { Author } from '../../database/entities/Author';

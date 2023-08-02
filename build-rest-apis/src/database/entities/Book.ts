@@ -15,6 +15,7 @@ export class Book {
     @Column({ nullable: false })    
     description: string;
 
+    // eager 사용시 Author table 도 포함하여 같이 보냄 
     @ManyToOne((type) => Author, (author) => author.books, { eager: true })    
     author: Author;
 

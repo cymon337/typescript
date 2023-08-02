@@ -1,7 +1,8 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 import { DBTable } from "../../constants/DBTable";
 
-export class CreateBooksTable1674172404705 implements MigrationInterface {
+// imgration 이름 옆 timestamp 로 생성순서 결정된다. 순서 유의할것
+export class CreateBooksTable1690953950490 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
@@ -64,15 +65,14 @@ export class CreateBooksTable1674172404705 implements MigrationInterface {
             true
         );
 
-        await queryRunner.createForeignKey(
-            DBTable.BOOKS, 
-            new TableForeignKey({
-                columnNames: ["authorId"],
-                referencedColumnNames: ["id"],
-                referencedTableName: DBTable.AUTHORS,
-                onDelete: "CASCADE",
-            })
-        );
+        const foreignKey = new TableForeignKey({
+            columnNames: ["authorId"],
+            referencedColumnNames: ["id"],
+            referencedTableName: "authors",
+            onDelete: "CASCADE",
+        });
+      
+        await queryRunner.createForeignKey(DBTable.BOOKS, foreignKey);
     }   
 
     public async down(queryRunner: QueryRunner): Promise<void> {
