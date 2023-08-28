@@ -8,5 +8,6 @@ const authController = new AuthController();
 const router = express.Router();
 
 router.post("/register", ErrorHandler.catchErrors(authController.register));
+router.post("/login", ErrorHandler.catchErrors(authController.login));
 
 export default router;
