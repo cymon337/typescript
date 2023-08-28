@@ -4,7 +4,7 @@ import express from "express";
 import { BooksController } from '../http/controllers/BooksController';
 
 
-const booksController = new BooksController
+const booksController = new BooksController();
 
 const router = express.Router();
 
