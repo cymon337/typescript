@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 import { DataSource } from "typeorm";
 import { Author } from "./entities/Author";
 import { Book } from "./entities/Book";
+import { User } from "./entities/User";
 
 dotenv.config();
 
@@ -23,7 +24,7 @@ export const AppDataSource = new DataSource({
 
     synchronize: false,
 
-    entities: [Author, Book],
+    entities: [Author, Book, User],
 
     subscribers: [],
 
